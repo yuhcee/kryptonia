@@ -2,6 +2,8 @@ import { AiFillPlayCircle } from 'react-icons/ai';
 import { SiEthereum } from 'react-icons/si';
 import { BsInfoCircle } from 'react-icons/bs';
 
+const companyCommonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white';
+
 const Welcome = () => {
     const connectWallet = () => {};
 
@@ -15,8 +17,13 @@ const Welcome = () => {
                     </h1>
                     <p className="text-left mt-5 text-xl text-white font-light md:w-9/12 w-11/12 text-base">Explore the crypto world. Buy and sell cryptocurrencies easily online on Krypto.</p>
                     <button className="flex flex-row justify-center items-center my-5 bg-[#2952e3] w-full p-3 rounded-full cursor-pointer hover:bg-[#2546bd]" type="button" onClick={connectWallet}>
+                        <AiFillPlayCircle className="text-white mr-2" />
                         <p className="font-semibold text-white text-base">Connect Wallet</p>
                     </button>
+
+                    <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
+                        <div className={`rounded-tl-2xl ${companyCommonStyles}`}> Reliability</div>
+                    </div>
                 </div>
             </div>
         </div>
