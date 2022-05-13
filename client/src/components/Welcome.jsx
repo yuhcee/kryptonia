@@ -23,6 +23,8 @@ const Welcome = () => {
 
                     <div className="grid sm:grid-cols-3 grid-cols-2 w-full mt-10">
                         <div className={`rounded-tl-2xl ${companyCommonStyles}`}> Reliability</div>
+                        <div className={`${companyCommonStyles}`}> Security</div>
+                        <div className={`rounded-tr-2xl ${companyCommonStyles}`}> Ethereum</div>
                     </div>
                 </div>
             </div>
