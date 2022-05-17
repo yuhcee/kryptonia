@@ -26,8 +26,8 @@ const Welcome = () => {
 
     return (
         <div className="flex p-2 mf:flex-row flex-col w-full justify-center items-center">
-            <div className="flex flex-col items-start justify-between md:p-20 py-12 px-4">
-                <div className="flex flex-1 justify-start items-start flex-col mf:mr-10">
+            <div className="flex flex-col flex-1 items-center justify-center md:p-20 py-12 px-4">
+                <div className="flex justify-start items-start flex-col mf:mr-10">
                     <h1 className="text-3xl sm:text-5xl text-white text-gradient py-1">
                         Send Crypto <br />
                         across the world
@@ -43,13 +43,13 @@ const Welcome = () => {
                         <div className={`${companyCommonStyles}`}> Security</div>
                         <div className={`rounded-tr-2xl ${companyCommonStyles}`}> Ethereum</div>
                         <div className={`rounded-bl-2xl ${companyCommonStyles}`}> Web 3.0</div>
-                        <div className={` ${companyCommonStyles}`}> Low Fees</div>
+                        <div className={`${companyCommonStyles}`}> Low Fees</div>
                         <div className={`rounded-br-2xl ${companyCommonStyles}`}> BlockChain</div>
                     </div>
                 </div>
             </div>
 
-            <div className="flex flex-col flex-1  items-center justify-center p-10 w-full mf:mt-0 mt-10">
+            <div className="flex flex-col flex-1 items-center justify-center p-10 w-full mf:mt-0 mt-10">
                 <div className="p-3 flex justify-end items-start flex-col rounded-xl h-40 sm:w-72 w-full my-5 eth-card white-glassmorphism">
                     <div className="flex justify-between flex-col w-full h-full">
                         <div className="flex justify-between items-start">
