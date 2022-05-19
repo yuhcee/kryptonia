@@ -19,6 +19,7 @@ export const TransactionProvider = ({ children }) => {
     const [formData, setFormData] = useState({ addressTo: '', amount: '', keyword: '', message: '' });
     const [isLoading, setIsLoading] = useState(false);
     const [transactionCount, setTransactionCount] = useState(localStorage.getItem('transactionCount'));
+    const [balance, setBalance] = useState(null);
 
     const handleChange = (e, name) => {
         if (!e.target.value) return;
@@ -44,6 +45,7 @@ export const TransactionProvider = ({ children }) => {
             }
         };
         checkIfWalletIsConnected();
+        getBalance()
     }, []);
 
     const connectWallet = async () => {
@@ -89,5 +91,18 @@ export const TransactionProvider = ({ children }) => {
         }
     };
 
-    return <TransactionContext.Provider value={{ connectWallet, connectedAccount, formData, sendTransaction, handleChange, isLoading }}>{children}</TransactionContext.Provider>;
+    const getBalance = async () => {
+        try {
+            if (!ethereum) return alert('Please install MetaMask');
+            const [account] = await ethereum.request({ method: 'eth_requestAccounts' });
+            const provider = new ethers.providers.Web3Provider(ethereum);
+            const balance = await provider.getBalance(account);
+            setBalance(ethers.utils.formatEther(balance));
+        } catch (error) {
+            console.log(error);
+            throw new Error('No ethereum object.');
+        }
+    };
+
+    return <TransactionContext.Provider value={{ connectWallet, connectedAccount, formData, sendTransaction, handleChange, isLoading, balance, getBalance }}>{children}</TransactionContext.Provider>;
 };
