@@ -27,17 +27,17 @@ const Navbar = () => {
             </ul>
             <div ref={ref} className="flex relative">
                 {toggleMenu ? (
-                    <AiOutlineClose fontSize={28} className="text-white md:hidden cursor-pointer" onClick={() => setToggleMenu(false)} />
+                    <AiOutlineClose fontSize={28} className="text-white md:hidden  cursor-pointer" onClick={() => setToggleMenu(false)} />
                 ) : (
                     <HiMenuAlt4 fontSize={28} className="text-white md:hidden cursor-pointer" onClick={() => setToggleMenu(true)} />
                 )}
                 {toggleMenu && (
                     <ul className="z-10 fixed -top-0 -right-2 p-3 w-[70vw] h-screen shadow-2xl md:hiden list-none flex flex-col justify-start items-end rounded-sm blue-glassmorphism text-white animate-slide-in">
                         <li className="text-xl w-full my-2">
-                            <AiOutlineClose onClick={() => setToggleMenu(false)} />
+                            <AiOutlineClose fontSize={40} className="ml-2 bg-[#3e5ff5] p-1 rounded-sm font-bold" onClick={() => setToggleMenu(false)} />
                         </li>
                         {NavItems.map((item, index) => (
-                            <NavbarListItem key={item + index} title={item} classProps={'my-2 text-lg'} />
+                            <NavbarListItem key={item + index} title={item} classProps={'my-2 text-lg font-semibold'} />
                         ))}
                     </ul>
                 )}
