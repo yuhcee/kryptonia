@@ -56,5 +56,38 @@ export const TransactionProvider = ({ children }) => {
             throw new Error('No ethereum object.');
         }
     };
+
+    const sendTransaction = async () => {
+        try {
+            if (!ethereum) return alert('Please install Metamask');
+            const { addressTo, keyword, message, amount } = formData;
+            const transactionContract = getEthereumContract();
+            const parsedAmount = ethers.utils.parseEther(amount);
+
+            await ethereum.request({
+                method: 'eth_sendTransaction',
+                params: [
+                    {
+                        from: connectedAccount,
+                        to: addressTo,
+                        gas: '0x5208', // 2100 GWEI
+                        value: parsedAmount._hex,
+                    },
+                ],
+            });
+
+            const transactionHash = await transactionContract.addToBlockChain(addressTo, parsedAmount, message, keyword);
+
+            setIsLoading(true);
+            console.log(`Loading -> ${transactionHash.hash}`);
+            await transactionHash.wait();
+            setIsLoading(false);
+            console.log(`Success -> ${transactionHash.hash}`);
+        } catch (error) {
+            console.log(error);
+            throw new Error('No ethereum object.');
+        }
+    };
+
     return <TransactionContext.Provider value={{ connectWallet, connectedAccount, formData, sendTransaction, handleChange, isLoading }}>{children}</TransactionContext.Provider>;
 };
