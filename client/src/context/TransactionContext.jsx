@@ -11,11 +11,20 @@ const getEthereumContract = () => {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
     const transactionContract = new ethers.Contract(contractAddress, contractABI, signer);
-    console.log({ provider, signer, trasactionContract });
+    return transactionContract;
 };
 
 export const TransactionProvider = ({ children }) => {
     const [connectedAccount, setConnectedAccount] = useState('');
+    const [formData, setFormData] = useState({ addressTo: '', amount: '', keyword: '', message: '' });
+    const [isLoading, setIsLoading] = useState(false);
+    const [transactionCount, setTransactionCount] = useState(localStorage.getItem('transactionCount'));
+
+    const handleChange = (e, name) => {
+        if (!e.target.value) return;
+
+        setFormData((prevState) => ({ ...prevState, [name]: e.target.value }));
+    };
 
     useEffect(() => {
         const checkIfWalletIsConnected = async () => {
@@ -47,5 +56,5 @@ export const TransactionProvider = ({ children }) => {
             throw new Error('No ethereum object.');
         }
     };
-    return <TransactionContext.Provider value={{ connectWallet, connectedAccount }}>{children}</TransactionContext.Provider>;
+    return <TransactionContext.Provider value={{ connectWallet, connectedAccount, formData, sendTransaction, handleChange, isLoading }}>{children}</TransactionContext.Provider>;
 };

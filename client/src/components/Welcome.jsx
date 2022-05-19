@@ -24,10 +24,15 @@ const Input = ({ placeholder, name, handleChange, type, value }) => (
 );
 
 const Welcome = () => {
-    const { connectWallet, connectedAccount } = useContext(TransactionContext);
+    const { connectWallet, connectedAccount, formData, sendTransaction, handleChange, isLoading } = useContext(TransactionContext);
 
-    const handleChange = () => {};
-    const handleSubmit = () => {};
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const { addressTo, keyword, message, amount } = formData;
+        if (!addressTo || !keyword || !message || !amount) return;
+
+        sendTransaction();
+    };
 
     return (
         <div className="flex p-2 mf:flex-row flex-col w-full justify-center items-center">
