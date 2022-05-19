@@ -1,8 +1,9 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import { AiFillPlayCircle } from 'react-icons/ai';
 import { SiEthereum } from 'react-icons/si';
 import { BsInfoCircle } from 'react-icons/bs';
+import { IoIosEyeOff, IoIosEye } from 'react-icons/io';
 
 import { TransactionContext } from '../context/TransactionContext';
 
@@ -24,7 +25,8 @@ const Input = ({ placeholder, name, handleChange, type, value }) => (
 );
 
 const Welcome = () => {
-    const { connectWallet, connectedAccount, formData, sendTransaction, handleChange, isLoading } = useContext(TransactionContext);
+    const { connectWallet, connectedAccount, formData, sendTransaction, handleChange, isLoading, balance } = useContext(TransactionContext);
+    const [viewBalance, setViewBalance] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -71,6 +73,19 @@ const Welcome = () => {
                             <BsInfoCircle fontSize={20} color="#fff" />
                         </div>
                         <div>
+                            <p className="font-semi-bold text-lg mt-1 text-white">{viewBalance && balance}</p>
+
+                            {viewBalance ? (
+                                <div className="font-light flex items-center text-lg text-white">
+                                    Hide Balance
+                                    <IoIosEyeOff className="ml-2" onClick={() => setViewBalance(false)} />
+                                </div>
+                            ) : (
+                                <div className="font-light flex items-center text-lg text-white">
+                                    View Balance
+                                    <IoIosEye className="ml-2" onClick={() => setViewBalance(true)} />
+                                </div>
+                            )}
                             <p className="font-light text-lg text-white">{shortenAddress(connectedAccount)}</p>
                             <p className="font-semi-bold text-lg mt-1 text-white">Ethereum</p>
                         </div>
