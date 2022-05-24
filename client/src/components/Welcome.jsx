@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { AiFillPlayCircle } from 'react-icons/ai';
 import { SiEthereum } from 'react-icons/si';
@@ -25,7 +25,7 @@ const Input = ({ placeholder, name, handleChange, type, value }) => (
 );
 
 const Welcome = () => {
-    const { connectWallet, connectedAccount, formData, sendTransaction, handleChange, isLoading, balance } = useContext(TransactionContext);
+    const { connectWallet, connectedAccount, formData, sendTransaction, handleChange, isLoading, getBalance, balance } = useContext(TransactionContext);
     const [viewBalance, setViewBalance] = useState(false);
 
     const handleSubmit = (e) => {
@@ -35,6 +35,11 @@ const Welcome = () => {
 
         sendTransaction();
     };
+    console.log(balance);
+    
+    useEffect(()=> {
+        getBalance()
+    })
 
     return (
         <div className="flex p-2 mf:flex-row flex-col w-full justify-center items-center">
@@ -78,12 +83,22 @@ const Welcome = () => {
                             {viewBalance ? (
                                 <div className="font-light flex items-center text-lg text-white">
                                     Hide Balance
-                                    <IoIosEyeOff className="ml-2" onClick={() => setViewBalance(false)} />
+                                    <IoIosEyeOff
+                                        className="ml-2"
+                                        onClick={() => {
+                                            setViewBalance(false);
+                                        }}
+                                    />
                                 </div>
                             ) : (
                                 <div className="font-light flex items-center text-lg text-white">
                                     View Balance
-                                    <IoIosEye className="ml-2" onClick={() => setViewBalance(true)} />
+                                    <IoIosEye
+                                        className="ml-2"
+                                        onClick={() => 
+                                            setViewBalance(true)
+                                        }
+                                    />
                                 </div>
                             )}
                             <p className="font-light text-lg text-white">{shortenAddress(connectedAccount)}</p>
