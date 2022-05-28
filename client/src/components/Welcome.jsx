@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { AiFillPlayCircle } from 'react-icons/ai';
 import { SiEthereum } from 'react-icons/si';
@@ -9,24 +9,17 @@ import { TransactionContext } from '../context/TransactionContext';
 
 import { Loader } from '.';
 import { shortenAddress } from '../utils/shortenAddress';
+import { messages } from '../utils/messages';
+
+import useInterval from '../hooks/useInterval';
+import Input from './Input';
 
 const companyCommonStyles = 'min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white';
 
-const Input = ({ placeholder, name, handleChange, type, value }) => (
-    <input
-        type={type}
-        placeholder={placeholder}
-        name={name}
-        value={value}
-        onChange={(e) => handleChange(e, name)}
-        step={'0.0001'}
-        className="my-2 w-full rounded-sm p-2 outline-none bg-transparent text-white border-none text-sm white-glassmorphism"
-    />
-);
-
 const Welcome = () => {
-    const { connectWallet, connectedAccount, formData, sendTransaction, handleChange, isLoading, getBalance, balance } = useContext(TransactionContext);
+    const { connectWallet, connectedAccount, formData, sendTransaction, handleChange, isLoading, balance } = useContext(TransactionContext);
     const [viewBalance, setViewBalance] = useState(false);
+    const [message, setMessage] = useState(messages[0]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -35,11 +28,13 @@ const Welcome = () => {
 
         sendTransaction();
     };
-    console.log(balance);
-    
-    useEffect(()=> {
-        getBalance()
-    })
+
+    useInterval(
+        () => {
+            setMessage((message) => messages[Math.floor(Math.random() * messages.length)]);
+        },
+        isLoading ? 5000 : null
+    );
 
     return (
         <div className="flex p-2 mf:flex-row flex-col w-full justify-center items-center">
@@ -93,12 +88,7 @@ const Welcome = () => {
                             ) : (
                                 <div className="font-light flex items-center text-lg text-white">
                                     View Balance
-                                    <IoIosEye
-                                        className="ml-2"
-                                        onClick={() => 
-                                            setViewBalance(true)
-                                        }
-                                    />
+                                    <IoIosEye className="ml-2" onClick={() => setViewBalance(true)} />
                                 </div>
                             )}
                             <p className="font-light text-lg text-white">{shortenAddress(connectedAccount)}</p>
@@ -114,8 +104,11 @@ const Welcome = () => {
 
                     <div className="h-[1px] w-full bg-gray-400 my-2"></div>
 
-                    {false ? (
-                        <Loader />
+                    {isLoading ? (
+                        <>
+                            <p className="text-white py-3 bg-transparent">{message}</p>
+                            <Loader />
+                        </>
                     ) : (
                         <button type="button" onClick={handleSubmit} className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7e] rounded-full cursor-pointer">
                             Send Now
