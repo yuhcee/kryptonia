@@ -20,7 +20,6 @@ export const TransactionProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [transactionCount, setTransactionCount] = useState(localStorage.getItem('transactionCount'));
     const [balance, setBalance] = useState('');
-    console.log(balance);
 
     const handleChange = (e, name) => {
         if (!e.target.value) return;
@@ -100,7 +99,7 @@ export const TransactionProvider = ({ children }) => {
                 const provider = new ethers.providers.Web3Provider(ethereum);
                 const balance = await provider.getBalance(account);
                 setBalance(ethers.utils.formatEther(balance));
-            }else{
+            } else {
                 console.log('No balance');
             }
         } catch (error) {
