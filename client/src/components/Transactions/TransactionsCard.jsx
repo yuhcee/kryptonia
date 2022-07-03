@@ -1,8 +1,8 @@
-import useFetch from '../hooks/useFetch';
-import { shortenAddress } from '../utils/shortenAddress';
+import useFetch from '../../hooks/useFetch';
+import { shortenAddress } from '../../utils/shortenAddress';
 
 const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword, amount, url }) => {
-    const gifUrl = useFetch({ keyword });
+    const gifUrl = useFetch({ keyword , url });
 
     return (
         <div
