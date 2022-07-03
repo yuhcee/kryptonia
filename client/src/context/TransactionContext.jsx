@@ -7,7 +7,7 @@ export const TransactionContext = createContext();
 
 const { ethereum } = window !== undefined && window;
 
-const getEthereumContract = () => {
+const createEthereumContract = () => {
     const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
     const transactionContract = new ethers.Contract(contractAddress, contractABI, signer);
@@ -43,6 +43,21 @@ export const TransactionProvider = ({ children }) => {
         }
     };
 
+    const checkIfTransactionsExists = async () => {
+        try {
+            if (ethereum) {
+                const transactionsContract = createEthereumContract();
+                const currentTransactionCount = await transactionsContract.getTransactionCount();
+
+                window.localStorage.setItem('transactionCount', currentTransactionCount);
+            }
+        } catch (error) {
+            console.log(error);
+
+            throw new Error('No ethereum object');
+        }
+    };
+
     const connectWallet = async () => {
         try {
             if (!ethereum) return alert('Please install MetaMask');
@@ -58,7 +73,7 @@ export const TransactionProvider = ({ children }) => {
         try {
             if (!ethereum) return alert('Please install Metamask');
             const { addressTo, keyword, message, amount } = formData;
-            const transactionContract = getEthereumContract();
+            const transactionContract = createEthereumContract();
             const parsedAmount = ethers.utils.parseEther(amount);
 
             await ethereum.request({
@@ -105,6 +120,7 @@ export const TransactionProvider = ({ children }) => {
 
     useEffect(() => {
         checkIfWalletIsConnected();
+        checkIfTransactionsExists();
         getBalance();
     }, [transactionCount]);
 
