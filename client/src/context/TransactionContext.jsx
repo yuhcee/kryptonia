@@ -23,30 +23,25 @@ export const TransactionProvider = ({ children }) => {
 
     const handleChange = (e, name) => {
         if (!e.target.value) return;
-
         setFormData((prevState) => ({ ...prevState, [name]: e.target.value }));
     };
 
-    useEffect(() => {
-        const checkIfWalletIsConnected = async () => {
-            try {
-                if (!ethereum) return alert('Please install MetaMask');
-                const accounts = await ethereum.request({ method: 'eth_accounts' });
+    const checkIfWalletIsConnected = async () => {
+        try {
+            if (!ethereum) return alert('Please install MetaMask');
+            const accounts = await ethereum.request({ method: 'eth_accounts' });
 
-                if (accounts.length) {
-                    setConnectedAccount(accounts[0]);
-                    // getAllTransactions()
-                } else {
-                    console.log('No accounts found');
-                }
-            } catch (error) {
-                console.log(error);
-                throw new Error('No ethereum object.');
+            if (accounts.length) {
+                setConnectedAccount(accounts[0]);
+                // getAllTransactions()
+            } else {
+                console.log('No accounts found');
             }
-        };
-        checkIfWalletIsConnected();
-        getBalance();
-    }, []);
+        } catch (error) {
+            console.log(error);
+            throw new Error('No ethereum object.');
+        }
+    };
 
     const connectWallet = async () => {
         try {
@@ -107,6 +102,11 @@ export const TransactionProvider = ({ children }) => {
             throw new Error('No ethereum object.');
         }
     };
+
+    useEffect(() => {
+        checkIfWalletIsConnected();
+        getBalance();
+    }, [transactionCount]);
 
     return <TransactionContext.Provider value={{ connectWallet, connectedAccount, formData, sendTransaction, handleChange, isLoading, balance, getBalance }}>{children}</TransactionContext.Provider>;
 };
