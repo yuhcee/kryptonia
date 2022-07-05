@@ -2,7 +2,7 @@
 
 ![Kryptonia](https://i.ibb.co/DVF4tNW/image.png)
 
-👉🏼 [Live](kryptonia.netlify.app) 👈🏼
+👉🏼 [Live](https://kryptonia.netlify.app/) 👈🏼
 
 ## Introduction
 
