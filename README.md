@@ -46,9 +46,4 @@ http://localhost:3000/
 ```
 
 ## Authors
-
 Yours truly, [YuhCee](https://www.github.com/yuhcee).
-
-## Acknowledgements
-
-This awesome project is from a video tutorial by [Adrian](https://www.jsmastery.pro).
